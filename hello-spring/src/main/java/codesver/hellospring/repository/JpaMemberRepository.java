@@ -16,7 +16,7 @@ public class JpaMemberRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        em.persist(member);     // persist (영속하다.)
+        em.persist(member);
         return member;
     }
 
