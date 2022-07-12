@@ -1,7 +1,7 @@
 package codesver.core;
 
 import codesver.core.discount.DiscountPolicy;
-import codesver.core.discount.FixDiscountPolicy;
+import codesver.core.discount.RateDiscountPolicy;
 import codesver.core.member.MemberRepository;
 import codesver.core.member.MemberService;
 import codesver.core.member.MemberServiceImpl;
@@ -23,6 +23,6 @@ public class AppConfig {
     }
 
     public DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 }
