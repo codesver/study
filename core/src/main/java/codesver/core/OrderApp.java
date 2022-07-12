@@ -2,14 +2,15 @@ package codesver.core;
 
 import codesver.core.member.Grade;
 import codesver.core.member.Member;
-import codesver.core.member.MemberServiceImpl;
+import codesver.core.member.MemberService;
 import codesver.core.order.Order;
-import codesver.core.order.OrderServiceImpl;
+import codesver.core.order.OrderService;
 
 public class OrderApp {
     public static void main(String[] args) {
-        MemberServiceImpl memberService = new MemberServiceImpl();
-        OrderServiceImpl orderService = new OrderServiceImpl();
+        AppConfig appConfig = new AppConfig();
+        MemberService memberService = appConfig.memberService();
+        OrderService orderService = appConfig.orderService();
 
         long memberId = 1L;
         Member member = new Member(memberId, "memberA", Grade.VIP);
