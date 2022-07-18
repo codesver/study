@@ -1,12 +1,12 @@
 package codesver.core.discount;
 
+import codesver.core.annotation.MainDiscountPolicy;
 import codesver.core.member.Grade;
 import codesver.core.member.Member;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
-@Primary
+@MainDiscountPolicy
 public class RateDiscountPolicy implements DiscountPolicy {
     private int discountPercent = 10;
 
