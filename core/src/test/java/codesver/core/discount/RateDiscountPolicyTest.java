@@ -4,6 +4,7 @@ import codesver.core.member.Grade;
 import codesver.core.member.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.stereotype.Component;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -3,6 +3,7 @@ package codesver.core.discount;
 import codesver.core.member.Grade;
 import codesver.core.member.Member;
 
+
 public class FixDiscountPolicy implements DiscountPolicy {
     private int discountFixAmount = 1000;
 
