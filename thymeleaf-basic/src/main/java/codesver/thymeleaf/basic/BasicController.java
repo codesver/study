@@ -17,13 +17,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/basic")
 public class BasicController {
-    @GetMapping("text-basic")
+    @GetMapping("/text-basic")
     public String textBasic(Model model) {
         model.addAttribute("data", "Hello Codesver!!!");
         return "basic/text-basic";
     }
 
-    @GetMapping("text-unescaped")
+    @GetMapping("/text-unescaped")
     public String textUnescaped(Model model) {
         model.addAttribute("data", "Hello <b>Codesver!</b>");
         return "basic/text-unescaped";
@@ -61,11 +61,17 @@ public class BasicController {
         return "basic/date";
     }
 
-    @GetMapping("link")
+    @GetMapping("/link")
     public String link(Model model) {
         model.addAttribute("param1", "data1");
         model.addAttribute("param2", "data2");
         return "basic/link";
+    }
+
+    @GetMapping("/literal")
+    public String literal(Model model) {
+        model.addAttribute("data", "Spring!");
+        return "basic/literal";
     }
 
     @Component("helloBean")
