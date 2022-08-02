@@ -1,7 +1,7 @@
-package hello.itemservice.web.validation;
+package codesver.itemservice.web.validation;
 
-import hello.itemservice.domain.item.Item;
-import hello.itemservice.domain.item.ItemRepository;
+import codesver.itemservice.domain.item.Item;
+import codesver.itemservice.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

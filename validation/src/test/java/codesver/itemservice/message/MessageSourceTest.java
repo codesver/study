@@ -1,4 +1,4 @@
-package hello.itemservice.message;
+package codesver.itemservice.message;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class MessageSourceTest {
 
     @Test
     void helloMessage() {
-        String result = ms.getMessage("hello", null, null);
+        String result = ms.getMessage("codesver", null, null);
         assertThat(result).isEqualTo("안녕");
     }
 
@@ -42,12 +42,12 @@ public class MessageSourceTest {
 
     @Test
     void defaultLang() {
-        assertThat(ms.getMessage("hello", null, null)).isEqualTo("안녕");
-        assertThat(ms.getMessage("hello", null, Locale.KOREA)).isEqualTo("안녕");
+        assertThat(ms.getMessage("codesver", null, null)).isEqualTo("안녕");
+        assertThat(ms.getMessage("codesver", null, Locale.KOREA)).isEqualTo("안녕");
     }
 
     @Test
     void enLang() {
-        assertThat(ms.getMessage("hello", null, Locale.ENGLISH)).isEqualTo("hello");
+        assertThat(ms.getMessage("codesver", null, Locale.ENGLISH)).isEqualTo("codesver");
     }
 }
