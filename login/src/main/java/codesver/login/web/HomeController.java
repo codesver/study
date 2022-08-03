@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,7 @@ public class HomeController {
         return "loginHome";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String homeLoginV3(HttpServletRequest request, Long memberId, Model model) {
         HttpSession session = request.getSession(false);
         if (session == null)
@@ -68,6 +69,14 @@ public class HomeController {
         if (loginMember == null)
             return "home";
 
+        model.addAttribute("member", loginMember);
+        return "loginHome";
+    }
+
+    @GetMapping("/")
+    public String homeLoginV3Spring(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Long memberId, Model model) {
+        if (loginMember == null)
+            return "home";
         model.addAttribute("member", loginMember);
         return "loginHome";
     }
