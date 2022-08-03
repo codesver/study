@@ -32,4 +32,11 @@ public class Item {
         this.price = price;
         this.quantity = quantity;
     }
+
+    public Item(Long id, String itemName, Integer price, Integer quantity) {
+        this.id = id;
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+    }
 }
