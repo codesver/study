@@ -16,7 +16,7 @@ public class ServletExceptionController {
         throw new RuntimeException("Exception!!");
     }
 
-    @GetMapping("/error404")
+    @GetMapping("/error-404")
     public void error404(HttpServletResponse response) throws IOException {
         response.sendError(404, "404 Error!");
     }
