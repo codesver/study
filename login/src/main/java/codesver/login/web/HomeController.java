@@ -2,6 +2,7 @@ package codesver.login.web;
 
 import codesver.login.domain.member.Member;
 import codesver.login.domain.member.MemberRepository;
+import codesver.login.web.argumentresolver.Login;
 import codesver.login.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -73,8 +74,16 @@ public class HomeController {
         return "loginHome";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String homeLoginV3Spring(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Long memberId, Model model) {
+        if (loginMember == null)
+            return "home";
+        model.addAttribute("member", loginMember);
+        return "loginHome";
+    }
+
+    @GetMapping("/")
+    public String homeLoginV3ArgumentResolver(@Login Member loginMember, Long memberId, Model model) {
         if (loginMember == null)
             return "home";
         model.addAttribute("member", loginMember);
