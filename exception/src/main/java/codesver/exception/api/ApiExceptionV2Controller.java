@@ -13,32 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ApiExceptionV2Controller {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResult illegalExHandler(IllegalArgumentException e) {
-        log.error("[exceptionHandler] ex", e);
-        return new ErrorResult("BAD", e.getMessage());
-    }
-
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<ErrorResult> userExHandler(UserException e) {
-        log.error("[exceptionHandler] ex", e);
-        ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
-        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    public ErrorResult exHandler(Exception e) {
-        log.error("[exceptionHandler] ex", e);
-        return new ErrorResult("EX", "Inner error");
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ErrorResult runtimeExHandler(RuntimeException e) {
-        log.error("[exceptionHandler] ex", e);
-        return new ErrorResult("EX", e.getMessage());
-    }
-
     @GetMapping("/api2/members/{id}")
     public MemberDTO getMember(@PathVariable("id") String id) {
         if (id.equals("ex"))
