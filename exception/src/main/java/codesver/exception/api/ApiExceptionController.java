@@ -1,5 +1,6 @@
 package codesver.exception.api;
 
+import codesver.exception.exception.UserException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,9 @@ public class ApiExceptionController {
             throw new RuntimeException("Wrong user");
         if (id.equals("bad"))
             throw new IllegalArgumentException("Wrong input value");
+
+        if (id.equals("user-ex"))
+            throw new UserException("User error");
 
         return new MemberDTO(id, "hello " + id);
     }
