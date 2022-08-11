@@ -4,6 +4,7 @@ import codesver.jdbc.domain.Member;
 import codesver.jdbc.repository.MemberRepository;
 import codesver.jdbc.repository.MemberRepositoryV3;
 import codesver.jdbc.repository.MemberRepositoryV4_1;
+import codesver.jdbc.repository.MemberRepositoryV4_2;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -41,13 +42,13 @@ class MemberServiceV4Test {
         private final DataSource dataSource;
 
         @Bean
-        MemberRepository memberRepositoryV3() {
-            return new MemberRepositoryV4_1(dataSource);
+        MemberRepository memberRepository() {
+            return new MemberRepositoryV4_2(dataSource);
         }
 
         @Bean
-        MemberServiceV4 memberServiceV3_3() {
-            return new MemberServiceV4(memberRepositoryV3());
+        MemberServiceV4 memberServiceV4() {
+            return new MemberServiceV4(memberRepository());
         }
     }
 
