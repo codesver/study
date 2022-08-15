@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 
 
-@Import(MemoryConfig.class)
+//@Import(MemoryConfig.class)
+@Import(JdbcTemplateV1Config.class)
 @SpringBootApplication(scanBasePackages = "codesver.itemservice.web")
 public class ItemServiceApplication {
 
