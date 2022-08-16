@@ -19,19 +19,22 @@ repositories {
 }
 
 dependencies {
+	// Thymeleaf template engine
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// Spring boot web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
-	//JdbcTemplate 추가
+	// JdbcTemplate
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	//H2 데이터베이스 추가
+	// MyBatis
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+	// H2 Database
 	runtimeOnly 'com.h2database:h2'
-
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	//테스트에서 lombok 사용
+	// Using lombok on test
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
