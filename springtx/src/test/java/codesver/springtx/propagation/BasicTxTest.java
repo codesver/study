@@ -35,6 +35,7 @@ public class BasicTxTest {
 
         log.info("Transaction commit start");
         txManager.commit(status);
+
         log.info("Transaction commit finish");
     }
 
@@ -77,4 +78,22 @@ public class BasicTxTest {
 
         log.info("Transaction double commit&rollback finish");
     }
+
+    @Test
+    void innerCommit() {
+        log.info("Outer transaction start");
+        TransactionStatus outer = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("Outer is new transaction={}", outer.isNewTransaction());
+
+        log.info("Inner transaction start");
+        TransactionStatus inner = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("Inner is new transaction={}", inner.isNewTransaction());
+
+        log.info("Inner transaction commit");
+        txManager.commit(inner);
+
+        log.info("Outer transaction commit");
+        txManager.commit(outer);
+    }
+
 }
