@@ -30,21 +30,51 @@ public class BasicTxTest {
 
     @Test
     void commit() {
-        log.info("Transaction 시작");
+        log.info("Transaction start");
         TransactionStatus status = txManager.getTransaction(new DefaultTransactionAttribute());
 
-        log.info("Transaction commit 시작");
+        log.info("Transaction commit start");
         txManager.commit(status);
-        log.info("Transaction commit 완료");
+        log.info("Transaction commit finish");
     }
 
     @Test
     void rollback() {
-        log.info("Transaction 시작");
+        log.info("Transaction start");
         TransactionStatus status = txManager.getTransaction(new DefaultTransactionAttribute());
 
-        log.info("Transaction rollback 시작");
+        log.info("Transaction rollback start");
         txManager.rollback(status);
-        log.info("Transaction rollback 완료");
+        log.info("Transaction rollback finish");
+    }
+
+    @Test
+    void doubleCommit() {
+        log.info("Transaction A start");
+        TransactionStatus statusA = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("Transaction A commit start");
+        txManager.commit(statusA);
+
+        log.info("Transaction B start");
+        TransactionStatus statusB = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("Transaction B commit start");
+        txManager.commit(statusB);
+
+        log.info("Transaction double commit finish");
+    }
+
+    @Test
+    void doubleCommitRollback() {
+        log.info("Transaction A start");
+        TransactionStatus statusA = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("Transaction A commit start");
+        txManager.commit(statusA);
+
+        log.info("Transaction B start");
+        TransactionStatus statusB = txManager.getTransaction(new DefaultTransactionAttribute());
+        log.info("Transaction B rollback start");
+        txManager.rollback(statusB);
+
+        log.info("Transaction double commit&rollback finish");
     }
 }
