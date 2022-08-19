@@ -1,10 +1,11 @@
-package codesver.springboot.domain.account;
+package codesver.springboot.domain;
 
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
+@Entity
 @Table(name = "User")
 public class User {
 
