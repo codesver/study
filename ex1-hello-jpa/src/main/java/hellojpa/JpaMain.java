@@ -15,7 +15,7 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // Data
+            // Code
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
