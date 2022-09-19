@@ -15,8 +15,7 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = em.find(Member.class, 1L);
-            System.out.println("member.getName() = " + member.getName());
+            // Data
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
