@@ -1,56 +1,46 @@
 package hellojpa;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "USERNAME")
+    private String username;
 
-    private Integer age;
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
-
-    @Lob
-    private String description;
-
-    public Member() {
+    public Long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public String getUsername() {
+        return username;
     }
 
-    public void setRoleType(RoleType roleType) {
-        this.roleType = roleType;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void changeTeam(Team team) {
+        if (this.team != null)
+            this.team.getMembers().remove(this);
+        this.team = team;
+        team.getMembers().add(this);
     }
 }
