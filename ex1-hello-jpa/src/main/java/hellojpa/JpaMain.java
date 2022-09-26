@@ -1,8 +1,9 @@
 package hellojpa;
 
-import org.hibernate.Hibernate;
-
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 public class JpaMain {
 
@@ -14,21 +15,11 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Child childA = new Child();
-            Child childB = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(childA);
-            parent.addChild(childB);
-
-            em.persist(parent);
-
-            em.flush();
-            em.clear();
-
-            Parent foundParent = em.find(Parent.class, parent.getId());
-            em.remove(foundParent);
-
+            Member member = new Member();
+            member.setUsername("hello");
+            member.setHomeAddress(new Address("city", "street", "10000"));
+            member.setWorkPeriod(new Period());
+            em.persist(member);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -38,17 +29,5 @@ public class JpaMain {
         }
 
         emf.close();
-    }
-
-    private static void printMember(Member member) {
-        System.out.println("member.getUsername() = " + member.getUsername());
-    }
-
-    private static void printMemberAndTeam(Member member) {
-        String username = member.getUsername();
-        System.out.println("username = " + username);
-
-        Team team = member.getTeam();
-        System.out.println("team.getName() = " + team.getName());
     }
 }
