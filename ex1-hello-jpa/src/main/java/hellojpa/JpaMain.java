@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
 
@@ -15,15 +17,18 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Address address = new Address("city", "street", "10000");
-
             Member member = new Member();
-            member.setUsername("hello1");
-            member.setHomeAddress(address);
-            em.persist(member);
+            member.setUsername("mMember1");
+            member.setHomeAddress(new Address("city1", "street", "10000"));
 
-            Address newAddress = new Address("newCity", address.getStreet(), address.getZipcode());
-            member.setHomeAddress(newAddress);
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
+
+            member.getAddressHistories().add(new AddressEntity("old1", "street", "10000"));
+            member.getAddressHistories().add(new AddressEntity("old2", "street", "10000"));
+
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
