@@ -33,7 +33,7 @@ public class JpaMain {
             em.clear();
 
             List<Member> members =
-                    em.createQuery("select m from Member m left join m.team t on t.name = 'team'", Member.class)
+                    em.createQuery("", Member.class)
                     .getResultList();
 
 
