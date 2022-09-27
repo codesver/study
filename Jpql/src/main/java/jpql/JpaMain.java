@@ -1,7 +1,5 @@
 package jpql;
 
-import jpql.domain.data.Address;
-import jpql.domain.dto.MemberDTO;
 import jpql.domain.entity.Member;
 import jpql.domain.entity.Team;
 
@@ -21,25 +19,22 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("team");
+            em.persist(team);
+
             Member member = new Member();
             member.setUsername("member");
             member.setAge(10);
+            member.setTeam(team);
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            List<Team> foundTeams = em.createQuery("select m.team from Member m join m.team t", Team.class).getResultList();
-            List<Address> foundAddresses = em.createQuery("select o.address from Order o", Address.class).getResultList();
-            List<MemberDTO> foundNameAndAges =
-                    em.createQuery("select new jpql.domain.dto.MemberDTO(m.username, m.age) " +
-                                    "from Member m", MemberDTO.class)
-                            .getResultList();
-
-            for (MemberDTO foundNameAndAge : foundNameAndAges) {
-                System.out.println("foundNameAndAge.get = " + foundNameAndAge.getUsername());
-                System.out.println("foundNameAndAge.getAge() = " + foundNameAndAge.getAge());
-            }
+            List<Member> members =
+                    em.createQuery("select m from Member m left join m.team t on t.name = 'team'", Member.class)
+                    .getResultList();
 
 
             tx.commit();
