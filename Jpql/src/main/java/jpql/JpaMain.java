@@ -1,5 +1,6 @@
 package jpql;
 
+import jpql.domain.data.MemberType;
 import jpql.domain.entity.Member;
 import jpql.domain.entity.Team;
 
@@ -24,18 +25,21 @@ public class JpaMain {
             em.persist(team);
 
             Member member = new Member();
-            member.setUsername("member");
+            member.setUsername("관리자");
             member.setAge(10);
             member.setTeam(team);
+            member.setType(MemberType.ADMIN);
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            List<Member> members =
-                    em.createQuery("", Member.class)
-                    .getResultList();
+            String query = "select nullif(m.username, '관리자') as username from Member m";
+            List<String> results = em.createQuery(query, String.class).getResultList();
 
+            for (String result : results) {
+                System.out.println("result = " + result);
+            }
 
             tx.commit();
         } catch (Exception e) {

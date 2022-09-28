@@ -1,5 +1,7 @@
 package jpql.domain.entity;
 
+import jpql.domain.data.MemberType;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,9 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+
+    @Enumerated(value = EnumType.STRING)
+    private MemberType type;
 
     public void changeTeam(Team team) {
         this.team = team;
@@ -42,6 +47,18 @@ public class Member {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public MemberType getType() {
+        return type;
+    }
+
+    public void setType(MemberType type) {
+        this.type = type;
     }
 
     @Override
