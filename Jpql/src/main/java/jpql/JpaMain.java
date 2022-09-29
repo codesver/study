@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 
@@ -54,14 +53,11 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m from Member m where m.team = :team";
-            List<Member> members = em.createQuery(query, Member.class)
-                    .setParameter("team", teamA)
-                    .getResultList();
+            int resultCount = em.createQuery("update Member m set m.age = 20")
+                    .executeUpdate();
 
-            for (Member member : members) {
-                System.out.println("member = " + member);
-            }
+            em.flush();
+            em.clear();
 
             tx.commit();
         } catch (Exception e) {
