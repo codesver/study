@@ -20,16 +20,48 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member adminA = new Member();
-            adminA.setUsername("AdminA");
-            em.persist(adminA);
+            Team teamA = new Team();
+            teamA.setName("teamA");
+            em.persist(teamA);
 
-            Member adminB = new Member();
-            adminB.setUsername("AdminB");
-            em.persist(adminB);
+            Team teamB = new Team();
+            teamB.setName("teamB");
+            em.persist(teamB);
+
+            Team teamC = new Team();
+            teamC.setName("teamC");
+            em.persist(teamC);
+
+            Member memberA = new Member();
+            memberA.setUsername("memberA");
+            memberA.setTeam(teamA);
+            em.persist(memberA);
+
+            Member memberB = new Member();
+            memberB.setUsername("memberB");
+            memberB.setTeam(teamA);
+            em.persist(memberB);
+
+            Member memberC = new Member();
+            memberC.setUsername("memberC");
+            memberC.setTeam(teamB);
+            em.persist(memberC);
+
+            Member memberD = new Member();
+            memberD.setUsername("memberD");
+            memberD.setTeam(teamC);
+            em.persist(memberD);
 
             em.flush();
             em.clear();
+
+            String query = "select distinct t from Team t join fetch t.members m";
+
+            List<Team> teams = em.createQuery(query, Team.class).getResultList();
+
+            for (Team team : teams) {
+                System.out.println("Team = " + team.getName() + " members = " + team.getMembers());
+            }
 
             tx.commit();
         } catch (Exception e) {
