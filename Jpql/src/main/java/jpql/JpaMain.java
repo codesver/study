@@ -1,6 +1,5 @@
 package jpql;
 
-import jpql.domain.data.MemberType;
 import jpql.domain.entity.Member;
 import jpql.domain.entity.Team;
 
@@ -55,16 +54,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m from Member m join fetch m.team t";
+            String query = "select m from Member m where m = :member";
+            Member member = em.createQuery(query, Member.class)
+                    .setParameter("member", memberA)
+                    .getSingleResult();
 
-            List<Member> members = em.createQuery(query, Member.class)
-                    .setFirstResult(0)
-                    .setMaxResults(10)
-                    .getResultList();
-
-            for (Member member : members) {
-                System.out.println("member = " + member);
-            }
+            System.out.println("member = " + member);
 
 
             tx.commit();
