@@ -13,8 +13,7 @@ public class Team extends BasedEntity {
     private Long id;
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TEAM_ID")
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     private List<Member> members = new ArrayList<>();
 
     public Long getId() {
