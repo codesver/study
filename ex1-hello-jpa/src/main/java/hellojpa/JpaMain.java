@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.Arrays;
 import java.util.List;
 
 public class JpaMain {
@@ -51,13 +52,14 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m from Member m join fetch m.team";
+            String query = "select distinct t from Team t join fetch t.members";
 
-            List<Member> members = em.createQuery(query, Member.class).getResultList();
+            List<Team> teams = em.createQuery(query, Team.class).getResultList();
 
-            for (Member member : members) {
-                System.out.println("Member = " + member.getUsername() + ", Team = " + member.getTeam().getName());
+            for (Team team : teams) {
+                System.out.println("Team = " + team.getName() + " members = " + team.getMembers());
             }
+
         } catch (Exception e) {
             tx.rollback();
             e.printStackTrace();
