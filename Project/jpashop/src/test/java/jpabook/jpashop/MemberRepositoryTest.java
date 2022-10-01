@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -16,6 +17,7 @@ class MemberRepositoryTest {
 
     @Test
     @Transactional
+    @Rollback(value = false)
     public void testMember() throws Exception {
         // given
         Member member = new Member();
@@ -28,5 +30,6 @@ class MemberRepositoryTest {
         // then
         assertThat(foundMember.getId()).isEqualTo(member.getId());
         assertThat(foundMember.getUsername()).isEqualTo(member.getUsername());
+        assertThat(foundMember).isEqualTo(member);
     }
 }
