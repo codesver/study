@@ -30,4 +30,10 @@ public class OrderItem {
     private int orderPrice;
     private int count;
 
+    // == Business Logic == //
+
+    // Cancel
+    public void cancel() {
+        getItem().addStock(count);
+    }
 }
