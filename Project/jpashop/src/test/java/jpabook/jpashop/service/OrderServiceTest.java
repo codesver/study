@@ -5,6 +5,8 @@ import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.domain.item.Book;
+import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.exception.NotEnoughStockException;
 import jpabook.jpashop.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
@@ -44,6 +47,19 @@ class OrderServiceTest {
         assertThat(foundOrder.getOrderItems().size()).isEqualTo(1);
         assertThat(foundOrder.getTotalPrice()).isEqualTo(10000 * orderCount);
         assertThat(book.getStockQuantity()).isEqualTo(8);
+    }
+
+    @Test
+    public void stockOverOrder() throws Exception {
+        // given
+        Member member = createMember();
+        Item item = createBook("JPA", 10000, 10);
+
+        // when
+        int orderCount = 11;
+
+        // then
+        assertThatThrownBy(() -> orderService.order(member.getId(), item.getId(), orderCount)).isInstanceOf(NotEnoughStockException.class);
     }
 
     private Book createBook(String name, int price, int quantity) {
