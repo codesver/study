@@ -62,6 +62,25 @@ class OrderServiceTest {
         assertThatThrownBy(() -> orderService.order(member.getId(), item.getId(), orderCount)).isInstanceOf(NotEnoughStockException.class);
     }
 
+    @Test
+    public void cancel() throws Exception {
+        // given
+        Member member = createMember();
+        Item item = createBook("JPA", 10000, 10);
+
+        int orderCount = 2;
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+
+        // when
+        orderService.cancelOrder(orderId);
+
+        // then
+        Order foundOrder = orderRepository.findOne(orderId);
+
+        assertThat(foundOrder.getStatus()).isEqualTo(OrderStatus.CANCEL);
+        assertThat(item.getStockQuantity()).isEqualTo(10);
+    }
+
     private Book createBook(String name, int price, int quantity) {
         Book book = new Book();
         book.setName(name);
