@@ -44,7 +44,7 @@ public class ItemController {
         return "items/itemList";
     }
 
-    @PostMapping("/items/{itemId}/edit")
+    @GetMapping("/items/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
         Book book = (Book) itemService.findOne(itemId);
 
