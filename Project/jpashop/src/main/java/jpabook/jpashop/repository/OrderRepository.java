@@ -37,7 +37,7 @@ public class OrderRepository {
             } else {
                 jpql += " and";
             }
-            jpql += "o.status = :status";
+            jpql += " o.status = :status";
         }
 
         if (StringUtils.hasText(orderSearch.getMemberName())) {
@@ -47,7 +47,7 @@ public class OrderRepository {
             } else {
                 jpql += " and";
             }
-            jpql += "m.name like :name";
+            jpql += " m.name like :name";
         }
 
         TypedQuery<Order> query = em.createQuery(jpql, Order.class).setMaxResults(1000);
