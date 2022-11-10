@@ -16,4 +16,8 @@ public class MemberJpaRepository {
         em.persist(member);
         return member;
     }
+
+    public Member find(Long id) {
+        return em.find(Member.class, id);
+    }
 }
