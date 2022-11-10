@@ -17,11 +17,17 @@ class MemberJpaRepositoryTest {
 
     @Test
     public void testMember() {
+        // given
         Member member = new Member("memberA");
         Member savedMember = memberJpaRepository.save(member);
+
+        // when
         Member foundMember = memberJpaRepository.find(savedMember.getId());
+
+        // then
         assertThat(foundMember.getId()).isEqualTo(savedMember.getId());
         assertThat(foundMember.getUsername()).isEqualTo(savedMember.getUsername());
+        assertThat(foundMember).isEqualTo(savedMember);
     }
 
 }
