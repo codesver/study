@@ -17,6 +17,10 @@ public class MemberJpaRepository {
         return member;
     }
 
+    public void delete(Member member) {
+        em.remove(member);
+    }
+
     public Member find(Long id) {
         return em.find(Member.class, id);
     }
