@@ -5,6 +5,7 @@ import study.datajpa.entity.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class MemberJpaRepository {
@@ -19,6 +20,10 @@ public class MemberJpaRepository {
 
     public void delete(Member member) {
         em.remove(member);
+    }
+
+    public List<Member> findAll() {
+        return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
     public Member find(Long id) {
