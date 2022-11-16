@@ -99,4 +99,17 @@ class MemberRepositoryTest {
         assertThat(foundMember).isEqualTo(memberA);
     }
 
+    @Test
+    void findUsernameList() {
+        Member memberA = new Member("AAA", 10);
+        Member memberB = new Member("BBB", 20);
+        memberRepository.save(memberA);
+        memberRepository.save(memberB);
+
+        List<String> usernames = memberRepository.findUsernameList();
+        for (String username : usernames) {
+            System.out.println("username = " + username);
+        }
+    }
+
 }
