@@ -159,6 +159,6 @@ class MemberRepositoryTest {
 
         assertThat(foundMembers.get(0)).isEqualTo(memberA);
         assertThat(foundMember).isEqualTo(memberA);
-        assertThat(foundOptionalMember.get()).isEqualTo(memberA);
+        assertThat(foundOptionalMember.orElseThrow()).isEqualTo(memberA);
     }
 }
