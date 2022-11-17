@@ -181,6 +181,7 @@ class MemberRepositoryTest {
 
         // when
         Page<Member> pagedMembers = memberRepository.findByAge(age, pageRequest);
+        Page<MemberDTO> pagedMemberDTOs = pagedMembers.map(m -> new MemberDTO(m.getId(), m.getUsername(), null));
 
         // then
         List<Member> content = pagedMembers.getContent();
