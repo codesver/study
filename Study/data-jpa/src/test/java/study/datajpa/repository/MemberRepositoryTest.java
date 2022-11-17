@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDTO;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -178,15 +180,17 @@ class MemberRepositoryTest {
         PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
 
         // when
-        Page<Member> pagedMembers = memberRepository.findByAge(age, pageRequest);
+        Slice<Member> pagedMembers = memberRepository.findByAge(age, pageRequest);
 
         // then
         List<Member> content = pagedMembers.getContent();
-        long totalElements = pagedMembers.getTotalElements();
+//        long totalElements = pagedMembers.getTotalElements();
 
-        for (Member member : content) {
-            System.out.println("member = " + member);
-        }
-        System.out.println("totalElements = " + totalElements);
+        assertThat(content.size()).isEqualTo(3);
+//        assertThat(pagedMembers.getTotalElements()).isEqualTo(5);
+        assertThat(pagedMembers.getNumber()).isEqualTo(0);
+//        assertThat(pagedMembers.getTotalPages()).isEqualTo(2);
+        assertThat(pagedMembers.isFirst()).isTrue();
+        assertThat(pagedMembers.hasNext()).isTrue();
     }
 }
