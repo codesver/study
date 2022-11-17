@@ -180,7 +180,7 @@ class MemberRepositoryTest {
         PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
 
         // when
-        Slice<Member> pagedMembers = memberRepository.findByAge(age, pageRequest);
+        Page<Member> pagedMembers = memberRepository.findByAge(age, pageRequest);
 
         // then
         List<Member> content = pagedMembers.getContent();
