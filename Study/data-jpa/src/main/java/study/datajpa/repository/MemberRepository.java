@@ -55,6 +55,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m from Member m")
     List<Member> findMemberEntityGraph();
 
-    @EntityGraph(attributePaths = {"team"})
+//    @EntityGraph(attributePaths = {"team"})
+    @EntityGraph("Member.all")
     List<Member> findEntityGraphByUsername(String username);
 }
