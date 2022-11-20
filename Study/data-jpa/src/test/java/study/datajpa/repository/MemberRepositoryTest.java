@@ -235,4 +235,18 @@ class MemberRepositoryTest {
             System.out.println("foundMember.getTeam().getName() = " + foundMember.getTeam().getName());
         }
     }
+
+    @Test
+    void queryHint() {
+        // given
+        Member member = memberRepository.save(new Member("member1", 10));
+        em.flush(); // Query 적용하기
+        em.clear(); // Persistence Context 초기화하기
+
+        // when
+        Member foundMember = memberRepository.findById(member.getId()).get();
+        foundMember.setUsername("member2");
+
+        em.flush();
+    }
 }
