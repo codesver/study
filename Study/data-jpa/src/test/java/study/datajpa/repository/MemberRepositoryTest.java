@@ -244,7 +244,7 @@ class MemberRepositoryTest {
         em.clear(); // Persistence Context 초기화하기
 
         // when
-        Member foundMember = memberRepository.findById(member.getId()).get();
+        Member foundMember = memberRepository.findReadOnlyByUsername(member.getUsername());
         foundMember.setUsername("member2");
 
         em.flush();
