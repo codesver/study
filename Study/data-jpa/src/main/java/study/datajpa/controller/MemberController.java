@@ -10,6 +10,7 @@ import study.datajpa.entity.Member;
 import study.datajpa.repository.member.MemberRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.stream.IntStream;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +36,6 @@ public class MemberController {
 
     @PostConstruct
     public void init() {
-        memberRepository.save(new Member("userA"));
+        IntStream.range(0, 100).forEach(index -> memberRepository.save(new Member("user" + index, index)));
     }
 }
