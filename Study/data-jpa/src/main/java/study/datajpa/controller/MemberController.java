@@ -21,13 +21,13 @@ public class MemberController {
         return foundMember.getUsername();
     }
 
-    @PostConstruct
-    public void init() {
-        memberRepository.save(new Member("userA"));
-    }
-
     @GetMapping("/members2/{id}")
     public String findMember2(@PathVariable("id") Member member) {
         return member.getUsername();
+    }
+
+    @PostConstruct
+    public void init() {
+        memberRepository.save(new Member("userA"));
     }
 }
