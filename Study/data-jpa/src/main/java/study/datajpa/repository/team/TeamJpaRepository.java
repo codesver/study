@@ -1,5 +1,5 @@
 
-package study.datajpa.repository;
+package study.datajpa.repository.team;
 
 import org.springframework.stereotype.Repository;
 import study.datajpa.entity.Team;
