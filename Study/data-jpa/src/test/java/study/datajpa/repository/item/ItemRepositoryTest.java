@@ -13,7 +13,7 @@ class ItemRepositoryTest {
 
     @Test
     void save() {
-        Item item = new Item();
+        Item item = new Item("ID");
         itemRepository.save(item);
     }
 }
