@@ -1,12 +1,9 @@
 package study.datajpa.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDTO;
@@ -290,6 +287,35 @@ class MemberRepositoryTest {
         Specification<Member> spec = MemberSpec.username("memberA").and(MemberSpec.teamName("teamA"));
         List<Member> result = memberRepository.findAll(spec);
 
-        Assertions.assertThat(result.size()).isEqualTo(1);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    @Test
+    void queryByExample() {
+        // given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member memberA = new Member("memberA", 0, teamA);
+        Member memberB = new Member("memberB", 0, teamA);
+        em.persist(memberA);
+        em.persist(memberB);
+
+        em.flush();
+        em.clear();
+
+        // when
+        Member member = new Member("memberA");
+        Team team = new Team("teamA");
+        member.setTeam(team);
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase("age");
+        Example<Member> example = Example.of(member, matcher);
+
+        List<Member> foundMembers = memberRepository.findAll(example);
+
+        // then
+        assertThat(foundMembers.get(0).getUsername()).isEqualTo("memberA");
     }
 }
