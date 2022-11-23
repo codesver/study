@@ -340,4 +340,23 @@ class MemberRepositoryTest {
             System.out.println("foundUser.getTeam().getName() = " + foundUser.getTeam().getName());
         }
     }
+
+    @Test
+    void nativeQuery() {
+        // given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member memberA = new Member("memberA", 0, teamA);
+        Member memberB = new Member("memberB", 0, teamA);
+        em.persist(memberA);
+        em.persist(memberB);
+
+        em.flush();
+        em.clear();
+
+        // when
+        Member foundMember = memberRepository.findByNativeQuery("memberA");
+        System.out.println("foundMember = " + foundMember);
+    }
 }
