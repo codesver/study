@@ -1,16 +1,19 @@
 package study.datajpa.repository;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDTO;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 import study.datajpa.repository.member.MemberRepository;
+import study.datajpa.repository.member.MemberSpec;
 import study.datajpa.repository.team.TeamRepository;
 
 import javax.persistence.EntityManager;
@@ -267,5 +270,26 @@ class MemberRepositoryTest {
     @Test
     void callCustom() {
         List<Member> members = memberRepository.findMemberCustom();
+    }
+
+    @Test
+    void specBasic() {
+        // given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member memberA = new Member("memberA", 0, teamA);
+        Member memberB = new Member("memberB", 0, teamA);
+        em.persist(memberA);
+        em.persist(memberB);
+
+        em.flush();
+        em.clear();
+
+        // when
+        Specification<Member> spec = MemberSpec.username("memberA").and(MemberSpec.teamName("teamA"));
+        List<Member> result = memberRepository.findAll(spec);
+
+        Assertions.assertThat(result.size()).isEqualTo(1);
     }
 }
