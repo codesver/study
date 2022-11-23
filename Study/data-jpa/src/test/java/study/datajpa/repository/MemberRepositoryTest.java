@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDTO;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
+import study.datajpa.repository.member.MemberProjection;
 import study.datajpa.repository.member.MemberRepository;
 import study.datajpa.repository.member.MemberSpec;
 import study.datajpa.repository.team.TeamRepository;
@@ -356,7 +357,11 @@ class MemberRepositoryTest {
         em.clear();
 
         // when
-        Member foundMember = memberRepository.findByNativeQuery("memberA");
-        System.out.println("foundMember = " + foundMember);
+        Page<MemberProjection> foundMember = memberRepository.findByNativeProjection(PageRequest.of(0, 10));
+        List<MemberProjection> members = foundMember.getContent();
+        for (MemberProjection member : members) {
+            System.out.println("member.getUsername() = " + member.getUsername());
+            System.out.println("member.getTeamName( = " + member.getTeamName());
+        }
     }
 }
