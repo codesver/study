@@ -334,9 +334,10 @@ class MemberRepositoryTest {
         em.clear();
 
         // when
-        List<UsernameOnlyDTO> foundUsers = memberRepository.findProjectionsByUsername("memberA", UsernameOnlyDTO.class);
-        for (UsernameOnlyDTO foundUser : foundUsers) {
+        List<NestedClosedProjections> foundUsers = memberRepository.findProjectionsByUsername("memberA", NestedClosedProjections.class);
+        for (NestedClosedProjections foundUser : foundUsers) {
             System.out.println("foundUser = " + foundUser.getUsername());
+            System.out.println("foundUser.getTeam().getName() = " + foundUser.getTeam().getName());
         }
     }
 }
