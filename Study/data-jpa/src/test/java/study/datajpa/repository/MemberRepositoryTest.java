@@ -336,7 +336,7 @@ class MemberRepositoryTest {
         // when
         List<UserNameOnly> foundUsers = memberRepository.findProjectionsByUsername("memberA");
         for (UserNameOnly foundUser : foundUsers) {
-            System.out.println("foundUser = " + foundUser);
+            System.out.println("foundUser = " + foundUser.getUsername());
         }
     }
 }
