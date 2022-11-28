@@ -72,4 +72,15 @@ public class QuerydslBasicTest {
         assert foundMember != null;
         assertThat(foundMember.getUsername()).isEqualTo("memberA");
     }
+
+    @Test
+    void searchAndParam() {
+        Member foundMember = query
+                .selectFrom(member)
+                .where(
+                        member.username.eq("memberA"),
+                        member.age.eq(10)
+                )
+                .fetchOne();
+    }
 }
