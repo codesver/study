@@ -1,6 +1,6 @@
 package study.querydsl;
 
-import com.querydsl.core.QueryResults;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,10 +11,8 @@ import study.querydsl.entity.Member;
 import study.querydsl.entity.Team;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static study.querydsl.entity.QMember.member;
 
@@ -35,9 +33,9 @@ public class QuerydslBasicTest {
         em.persist(teamB);
 
         Member memberA = new Member("memberA", 10, teamA);
-        Member memberB = new Member("memberB", 10, teamA);
-        Member memberC = new Member("memberC", 10, teamB);
-        Member memberD = new Member("memberD", 10, teamB);
+        Member memberB = new Member("memberB", 20, teamA);
+        Member memberC = new Member("memberC", 30, teamB);
+        Member memberD = new Member("memberD", 40, teamB);
         em.persist(memberA);
         em.persist(memberB);
         em.persist(memberC);
@@ -140,5 +138,26 @@ public class QuerydslBasicTest {
                 .fetch();
 
         assertThat(foundPagedMembers.size()).isEqualTo(2);
+    }
+
+    @Test
+    void aggregation() {
+        List<Tuple> foundMemberTuples = query
+                .select(
+                        member.count(),
+                        member.age.sum(),
+                        member.age.avg(),
+                        member.age.max(),
+                        member.age.min()
+                )
+                .from(member)
+                .fetch();
+
+        Tuple tuple = foundMemberTuples.get(0);
+        assertThat(tuple.get(member.count())).isEqualTo(4);
+        assertThat(tuple.get(member.age.sum())).isEqualTo(100);
+        assertThat(tuple.get(member.age.avg())).isEqualTo(25);
+        assertThat(tuple.get(member.age.max())).isEqualTo(40);
+        assertThat(tuple.get(member.age.min())).isEqualTo(10);
     }
 }
