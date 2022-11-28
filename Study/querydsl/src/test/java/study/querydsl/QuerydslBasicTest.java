@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static study.querydsl.entity.QMember.member;
 
@@ -100,5 +101,32 @@ public class QuerydslBasicTest {
         Member foundFirstMember = query
                 .selectFrom(member)
                 .fetchFirst();
+    }
+
+    /**
+     * Member sorting sequence
+     * 1. Sorting in descending order by age.
+     * 2. Sorting in ascending order by name
+     * 2-1. If username is null than sort at last
+     */
+    @Test
+    void sort() {
+        em.persist(new Member(null, 100));
+        em.persist(new Member("memberD", 100));
+        em.persist(new Member("memberE", 100));
+
+        List<Member> foundMembers = query
+                .selectFrom(member)
+                .where(member.age.eq(100))
+                .orderBy(member.age.desc(), member.username.asc().nullsLast())
+                .fetch();
+
+        Member memberD = foundMembers.get(0);
+        Member memberE = foundMembers.get(1);
+        Member memberNull = foundMembers.get(2);
+
+        assertThat(memberD.getUsername()).isEqualTo("memberD");
+        assertThat(memberE.getUsername()).isEqualTo("memberE");
+        assertThat(memberNull.getUsername()).isNull();
     }
 }
