@@ -1,17 +1,18 @@
 package study.querydsl;
 
-import org.assertj.core.api.Assertions;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.entity.Member;
+import study.querydsl.entity.QMember;
 import study.querydsl.entity.Team;
 
 import javax.persistence.EntityManager;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -19,9 +20,11 @@ public class QuerydslBasicTest {
 
     @Autowired
     EntityManager em;
+    JPAQueryFactory query;
 
     @BeforeEach
     void before() {
+        query = new JPAQueryFactory(em);
         Team teamA = new Team("teamA");
         Team teamB = new Team("teamB");
         em.persist(teamA);
@@ -46,6 +49,18 @@ public class QuerydslBasicTest {
                         "where m.username = :username", Member.class)
                 .setParameter("username", "memberA")
                 .getSingleResult();
+        assertThat(foundMember.getUsername()).isEqualTo("memberA");
+    }
+
+    @Test
+    void startQuerydsl() {
+        QMember m = new QMember("m");
+        Member foundMember = query
+                .select(m)
+                .from(m)
+                .where(m.username.eq("memberA"))
+                .fetchOne();
+        assert foundMember != null;
         assertThat(foundMember.getUsername()).isEqualTo("memberA");
     }
 }
