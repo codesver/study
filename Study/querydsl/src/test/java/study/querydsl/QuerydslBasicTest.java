@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.entity.Member;
-import study.querydsl.entity.QMember;
 import study.querydsl.entity.Team;
 
 import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static study.querydsl.entity.QMember.*;
+import static study.querydsl.entity.QMember.member;
 
 @SpringBootTest
 @Transactional
@@ -59,6 +58,16 @@ public class QuerydslBasicTest {
                 .select(member)
                 .from(member)
                 .where(member.username.eq("memberA"))
+                .fetchOne();
+        assert foundMember != null;
+        assertThat(foundMember.getUsername()).isEqualTo("memberA");
+    }
+
+    @Test
+    void search() {
+        Member foundMember = query
+                .selectFrom(member)
+                .where(member.username.eq("memberA'").and(member.age.eq(10)))
                 .fetchOne();
         assert foundMember != null;
         assertThat(foundMember.getUsername()).isEqualTo("memberA");
