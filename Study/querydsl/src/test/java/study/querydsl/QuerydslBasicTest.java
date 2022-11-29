@@ -418,4 +418,15 @@ public class QuerydslBasicTest {
             System.out.println("foundMember = " + foundMember);
         }
     }
+
+    @Test
+    void simpleProjection() {
+        List<String> result = query
+                .select(member.username)
+                .from(member)
+                .fetch();
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
 }
