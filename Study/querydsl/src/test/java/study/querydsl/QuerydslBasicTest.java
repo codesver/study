@@ -183,4 +183,19 @@ public class QuerydslBasicTest {
         assertThat(teamB.get(team.name)).isEqualTo("teamB");
         assertThat(teamB.get(member.age.avg())).isEqualTo(35);
     }
+
+    /**
+     * Find all member in team A
+     */
+    @Test
+    void join() {
+        List<Member> teamAMembers = query
+                .selectFrom(member)
+                .join(member.team, team)
+                .where(team.name.eq("teamA"))
+                .fetch();
+        assertThat(teamAMembers)
+                .extracting("username")
+                .containsExactly("memberA", "memberB");
+    }
 }
