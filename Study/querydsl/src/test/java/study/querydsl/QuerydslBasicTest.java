@@ -198,4 +198,25 @@ public class QuerydslBasicTest {
                 .extracting("username")
                 .containsExactly("memberA", "memberB");
     }
+
+    /**
+     * Theta join
+     * Find which member name and team name is same
+     */
+    @Test
+    void theta_join() {
+        em.persist(new Member("teamA"));
+        em.persist(new Member("teamB"));
+        em.persist(new Member("teamC"));
+
+        List<Member> foundMembers = query
+                .select(member)
+                .from(member, team)
+                .where(member.username.eq(team.name))
+                .fetch();
+
+        assertThat(foundMembers)
+                .extracting("username")
+                .containsExactly("teamA", "teamB");
+    }
 }
