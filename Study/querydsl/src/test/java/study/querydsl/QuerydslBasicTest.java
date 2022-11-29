@@ -405,4 +405,17 @@ public class QuerydslBasicTest {
             System.out.println("foundMember = " + foundMember);
         }
     }
+
+    @Test
+    void concat() {
+        List<String> foundMembers = query
+                .select(member.username.concat("_").concat(member.age.stringValue()))
+                .from(member)
+                .where(member.username.eq("memberA"))
+                .fetch();
+
+        for (String foundMember : foundMembers) {
+            System.out.println("foundMember = " + foundMember);
+        }
+    }
 }
