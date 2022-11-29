@@ -2,6 +2,7 @@ package study.querydsl;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -389,6 +390,18 @@ public class QuerydslBasicTest {
                 .fetch();
 
         for (String foundMember : foundMembers) {
+            System.out.println("foundMember = " + foundMember);
+        }
+    }
+
+    @Test
+    void constant() {
+        List<Tuple> foundMembers = query
+                .select(member.username, Expressions.constant("A"))
+                .from(member)
+                .fetch();
+
+        for (Tuple foundMember : foundMembers) {
             System.out.println("foundMember = " + foundMember);
         }
     }
