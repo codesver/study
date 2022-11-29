@@ -313,4 +313,23 @@ public class QuerydslBasicTest {
                 .extracting("age")
                 .containsExactly(40);
     }
+
+    /**
+     * Search member older than average age
+     */
+    @Test
+    void subQueryGoe() {
+        QMember memberSub = new QMember("memberSub");
+        List<Member> foundMembers = query
+                .selectFrom(member)
+                .where(member.age.goe(
+                        JPAExpressions
+                                .select(memberSub.age.avg())
+                                .from(memberSub)
+                )).fetch();
+
+        assertThat(foundMembers)
+                .extracting("age")
+                .containsExactly(30, 40);
+    }
 }
