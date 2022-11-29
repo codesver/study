@@ -17,6 +17,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import java.util.List;
 
+import static com.querydsl.jpa.JPAExpressions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static study.querydsl.entity.QMember.member;
 import static study.querydsl.entity.QTeam.team;
@@ -304,8 +305,7 @@ public class QuerydslBasicTest {
         List<Member> foundMembers = query
                 .selectFrom(member)
                 .where(member.age.eq(
-                        JPAExpressions
-                                .select(memberSub.age.max())
+                        select(memberSub.age.max())
                                 .from(memberSub)
                 )).fetch();
 
@@ -323,8 +323,7 @@ public class QuerydslBasicTest {
         List<Member> foundMembers = query
                 .selectFrom(member)
                 .where(member.age.goe(
-                        JPAExpressions
-                                .select(memberSub.age.avg())
+                        select(memberSub.age.avg())
                                 .from(memberSub)
                 )).fetch();
 
@@ -339,8 +338,7 @@ public class QuerydslBasicTest {
         List<Member> foundMembers = query
                 .selectFrom(member)
                 .where(member.age.in(
-                        JPAExpressions
-                                .select(memberSub.age)
+                        select(memberSub.age)
                                 .from(memberSub)
                                 .where(memberSub.age.gt(10))
                 )).fetch();
@@ -354,8 +352,8 @@ public class QuerydslBasicTest {
     void selectSubQuery() {
         QMember memberSub = new QMember("memberSub");
         List<Tuple> result = query
-                .select(member.username, JPAExpressions
-                        .select(memberSub.age.avg())
+                .select(member.username,
+                        select(memberSub.age.avg())
                         .from(memberSub))
                 .from(member)
                 .fetch();
