@@ -277,4 +277,19 @@ public class QuerydslBasicTest {
         boolean loaded = emf.getPersistenceUnitUtil().isLoaded(memberA.getTeam());
         assertThat(loaded).isFalse();
     }
+
+    @Test
+    void fetchJoinUser() {
+        em.flush();
+        em.clear();
+
+        Member memberA = query
+                .selectFrom(member)
+                .join(member.team, team).fetchJoin()
+                .where(member.username.eq("memberA"))
+                .fetchOne();
+
+        boolean loaded = emf.getPersistenceUnitUtil().isLoaded(memberA.getTeam());
+        assertThat(loaded).isTrue();
+    }
 }
