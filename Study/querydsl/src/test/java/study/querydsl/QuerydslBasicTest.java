@@ -219,4 +219,22 @@ public class QuerydslBasicTest {
                 .extracting("username")
                 .containsExactly("teamA", "teamB");
     }
+
+    /**
+     * Join Member and Team but only team A and all members
+     * JPQL: select m, t from Member m left join m.team on t.name = 'teamA'
+     */
+    @Test
+    void joinOnFiltering() {
+        List<Tuple> result = query
+                .select(member, team)
+                .from(member)
+                .leftJoin(member.team, team)
+                .on(team.name.eq("teamA"))
+                .fetch();
+
+        for (Tuple tuple : result) {
+            System.out.println("tuple = " + tuple);
+        }
+    }
 }
