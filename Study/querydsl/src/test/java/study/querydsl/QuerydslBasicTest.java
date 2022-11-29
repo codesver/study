@@ -332,4 +332,21 @@ public class QuerydslBasicTest {
                 .extracting("age")
                 .containsExactly(30, 40);
     }
+
+    @Test
+    void subQueryIn() {
+        QMember memberSub = new QMember("memberSub");
+        List<Member> foundMembers = query
+                .selectFrom(member)
+                .where(member.age.in(
+                        JPAExpressions
+                                .select(memberSub.age)
+                                .from(memberSub)
+                                .where(memberSub.age.gt(10))
+                )).fetch();
+
+        assertThat(foundMembers)
+                .extracting("age")
+                .containsExactly(20, 30, 40);
+    }
 }
