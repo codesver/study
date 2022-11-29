@@ -361,4 +361,19 @@ public class QuerydslBasicTest {
             System.out.println("tuple = " + tuple);
         }
     }
+
+    @Test
+    void basicCase() {
+        List<String> foundMembers = query
+                .select(member.age
+                        .when(10).then("열살")
+                        .when(20).then("스무살")
+                        .otherwise("기타"))
+                .from(member)
+                .fetch();
+
+        for (String foundMember : foundMembers) {
+            System.out.println("foundMember = " + foundMember);
+        }
+    }
 }
