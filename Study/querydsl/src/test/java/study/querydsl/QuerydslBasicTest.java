@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberDTO;
+import study.querydsl.dto.QMemberDTO;
 import study.querydsl.dto.UserDTO;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
@@ -515,6 +516,17 @@ public class QuerydslBasicTest {
                 .fetch();
         for (UserDTO userDTO : result) {
             System.out.println("userDTO = " + userDTO);
+        }
+    }
+
+    @Test
+    void findDTOByQueryProjection() {
+        List<MemberDTO> foundMemberDTOs = query
+                .select(new QMemberDTO(member.username, member.age))
+                .from(member)
+                .fetch();
+        for (MemberDTO foundMemberDTO : foundMemberDTOs) {
+            System.out.println("foundMemberDTO = " + foundMemberDTO);
         }
     }
 }
