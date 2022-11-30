@@ -1,6 +1,7 @@
 package study.querydsl;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
@@ -449,6 +450,17 @@ public class QuerydslBasicTest {
                 "select new study.querydsl.dto.MemberDTO(m.username, m.age) " +
                         "from Member m", MemberDTO.class
         ).getResultList();
+        for (MemberDTO foundMemberDTO : foundMemberDTOs) {
+            System.out.println("foundMemberDTO = " + foundMemberDTO);
+        }
+    }
+
+    @Test
+    void findDTOBySetter() {
+        List<MemberDTO> foundMemberDTOs = query
+                .select(Projections.bean(MemberDTO.class, member.username, member.age))
+                .from(member)
+                .fetch();
         for (MemberDTO foundMemberDTO : foundMemberDTOs) {
             System.out.println("foundMemberDTO = " + foundMemberDTO);
         }
