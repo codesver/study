@@ -1,10 +1,10 @@
 package study.querydsl;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import java.util.List;
 
-import static com.querydsl.jpa.JPAExpressions.*;
+import static com.querydsl.jpa.JPAExpressions.select;
 import static org.assertj.core.api.Assertions.assertThat;
 import static study.querydsl.entity.QMember.member;
 import static study.querydsl.entity.QTeam.team;
@@ -359,7 +359,7 @@ public class QuerydslBasicTest {
         List<Tuple> result = query
                 .select(member.username,
                         select(memberSub.age.avg())
-                        .from(memberSub))
+                                .from(memberSub))
                 .from(member)
                 .fetch();
         for (Tuple tuple : result) {
@@ -497,6 +497,24 @@ public class QuerydslBasicTest {
                 .fetch();
         for (UserDTO foundUserDTO : foundUserDTOs) {
             System.out.println("foundUserDTO = " + foundUserDTO);
+        }
+    }
+
+    @Test
+    void findUserDTOSubQuery() {
+        QMember memberSub = new QMember("memberSub");
+        List<UserDTO> result = query
+                .select(Projections.fields(UserDTO.class,
+                        member.username.as("name"),
+                        ExpressionUtils.as(
+                                select(memberSub.age.max()).from(memberSub),
+                                "age"
+                        )
+                ))
+                .from(member)
+                .fetch();
+        for (UserDTO userDTO : result) {
+            System.out.println("userDTO = " + userDTO);
         }
     }
 }
