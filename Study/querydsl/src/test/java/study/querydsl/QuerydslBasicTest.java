@@ -465,4 +465,15 @@ public class QuerydslBasicTest {
             System.out.println("foundMemberDTO = " + foundMemberDTO);
         }
     }
+
+    @Test
+    void findDTOByField() {
+        List<MemberDTO> foundMemberDTOs = query
+                .select(Projections.fields(MemberDTO.class, member.username, member.age))
+                .from(member)
+                .fetch();
+        for (MemberDTO foundMemberDTO : foundMemberDTOs) {
+            System.out.println("foundMemberDTO = " + foundMemberDTO);
+        }
+    }
 }
