@@ -614,4 +614,19 @@ public class QuerydslBasicTest {
                 .fetch();
         for (String s : result) System.out.println("s = " + s);
     }
+
+    @Test
+    void sqlFunctionB() {
+        List<String> result = query
+                .select(member.username)
+                .from(member)
+                .where(member.username.eq(member.username.lower()))
+//                .where(member.username.eq(
+//                        Expressions.stringTemplate("function('lower', {0})", member.username)
+//                ))
+                .fetch();
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
 }
