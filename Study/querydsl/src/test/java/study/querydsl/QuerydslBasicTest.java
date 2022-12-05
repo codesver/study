@@ -570,10 +570,10 @@ public class QuerydslBasicTest {
     }
 
     private Predicate usernameEq(String usernameCond) {
-        return usernameCond == null ? null : member.username.eq(usernameCond);
+        return usernameCond != null ? member.username.eq(usernameCond) : null;
     }
 
     private Predicate ageEq(Integer ageCond) {
-        return ageCond == null ? null : member.age.eq(ageCond);
+        return ageCond != null ? member.age.eq(ageCond) : null;
     }
 }
