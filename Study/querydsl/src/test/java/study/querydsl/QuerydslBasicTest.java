@@ -586,4 +586,12 @@ public class QuerydslBasicTest {
                 .execute();
         assertThat(count).isEqualTo(2);
     }
+
+    @Test
+    void bulkAdd() {
+        long count = query
+                .update(member)
+                .set(member.age, member.age.add(1))
+                .execute();
+    }
 }
