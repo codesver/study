@@ -576,4 +576,14 @@ public class QuerydslBasicTest {
     private Predicate ageEq(Integer ageCond) {
         return ageCond != null ? member.age.eq(ageCond) : null;
     }
+
+    @Test
+    void bulkUpdate() {
+        long count = query
+                .update(member)
+                .set(member.username, "비회원")
+                .where(member.age.lt(28))
+                .execute();
+        assertThat(count).isEqualTo(2);
+    }
 }
