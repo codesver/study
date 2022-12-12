@@ -76,7 +76,7 @@ class MemberJpaRepositoryTest {
         condition.setAgeLoe(40);
         condition.setTeamName("teamB");
 
-        List<MemberTeamDTO> result = memberJpaRepository.searchByBuilder(condition);
+        List<MemberTeamDTO> result = memberJpaRepository.search(condition);
 
         assertThat(result).extracting("username").containsExactly("memberD");
     }
