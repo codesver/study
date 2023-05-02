@@ -3,6 +3,8 @@ package com.codesver.security1.controller;
 import com.codesver.security1.model.User;
 import com.codesver.security1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,5 +59,19 @@ public class IndexController {
         user.setPassword(encodedPassword);
         userRepository.save(user);
         return "redirect:/loginForm";
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
+    @GetMapping("/info")
+    @ResponseBody
+    public String info() {
+        return "Private Information";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/data")
+    @ResponseBody
+    public String data() {
+        return "Data";
     }
 }
