@@ -1,5 +1,7 @@
 package com.codesver.security1.config;
 
+import com.codesver.security1.config.oauth.PrincipleOauth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,7 +14,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // Secured annotation 활성화, pre(post)Authorize annotation 활성화
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final PrincipleOauth2UserService principleOauth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -29,7 +34,9 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .loginPage("/loginForm");
+                .loginPage("/loginForm")
+                .userInfoEndpoint()
+                .userService(principleOauth2UserService); // Google login 이 되면 access token + user profile 을 바로 받는다.
         return http.build();
     }
 
