@@ -1,11 +1,20 @@
 package com.codesver.security1.controller;
 
+import com.codesver.security1.model.User;
+import com.codesver.security1.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
+
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
 
     @GetMapping({"", "/"})
     public String index() {
@@ -30,21 +39,23 @@ public class IndexController {
         return "manager";
     }
 
-    @GetMapping("/login")
-    @ResponseBody
-    public String login() {
-        return "login";
+    @GetMapping("/loginForm")
+    public String loginForm() {
+        return "loginForm";
     }
 
-    @GetMapping("/join")
-    @ResponseBody
-    public String join() {
-        return "join";
+    @GetMapping("/joinForm")
+    public String joinForm() {
+        return "joinForm";
     }
 
-    @GetMapping("/joinProc")
-    @ResponseBody
-    public String joinProc() {
-        return "회원가입 완료됨!";
+    @PostMapping("/join")
+    public String join(User user) {
+        user.setRole("ROLE_USER");
+        String rawPassword = user.getPassword();
+        String encodedPassword = encoder.encode(rawPassword);
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+        return "redirect:/loginForm";
     }
 }
