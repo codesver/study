@@ -26,7 +26,10 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login")  // /login 주소가 호출이 되면 security 가 대신 로그인 진행
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/")
+                .and()
+                .oauth2Login()
+                .loginPage("/loginForm");
         return http.build();
     }
 
