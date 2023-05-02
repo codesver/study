@@ -1,7 +1,6 @@
 package com.codesver.security1.model;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +18,6 @@ public class User {
     private String password;
     private String email;
     private String role;
-    @CreationTimestamp
     private Timestamp createDate;
 }
 
