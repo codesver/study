@@ -1,5 +1,6 @@
 package com.codesver.security1.model;
 
+import com.codesver.security1.config.oauth.provider.OAuth2UserInfo;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.sql.Timestamp;
 @Entity
 @NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,6 +28,13 @@ public class User {
     private String providerId;
     @CreationTimestamp
     private Timestamp createDate;
+
+    public User(OAuth2UserInfo userInfo) {
+        username = userInfo.getUsername();
+        email = userInfo.getEmail();
+        provider = userInfo.getProvider();
+        providerId = userInfo.getProviderId();
+    }
 
     @Builder
     public User(String username, String password, String email, String role, String provider, String providerId, Timestamp createDate) {
