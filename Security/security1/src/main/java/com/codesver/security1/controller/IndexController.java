@@ -1,6 +1,7 @@
 package com.codesver.security1.controller;
 
-import com.codesver.security1.auth.PrincipleDetails;
+import com.codesver.security1.config.auth.PrincipleDetails;
+import com.codesver.security1.config.CustomBCryptPasswordEncoder;
 import com.codesver.security1.model.User;
 import com.codesver.security1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder;
+    private final CustomBCryptPasswordEncoder encoder;
 
     @GetMapping("/test/normal/login")
     @ResponseBody
     public String testNormalLogin(
             Authentication authentication,
             @AuthenticationPrincipal PrincipleDetails userDetails) {    // 2가지 방법으로 getUser 호출 가능
-        PrincipleDetails principleDetails = (PrincipleDetails) authentication.getPrincipal();
+        PrincipleDetails principleDetails =
+                (PrincipleDetails) authentication.getPrincipal();
         System.out.println("principleDetails.getUser() = " + principleDetails.getUser());
         System.out.println("userDetails.getUsername() = " + userDetails.getUser());
         return "Session 정보 확인하기";
@@ -44,6 +45,14 @@ public class IndexController {
         return "OAuth Session 정보 확인하기";
     }
 
+    @GetMapping("/test/login")
+    @ResponseBody
+    public String testLogin(@AuthenticationPrincipal PrincipleDetails userDetails) {
+        System.out.println("userDetails.getUser() = " + userDetails.getUser());
+        System.out.println("userDetails.getAttributes() = " + userDetails.getAttributes());
+        return "Session 정보 확인하기";
+    }
+
     @GetMapping({"", "/"})
     public String index() {
         return "index";
@@ -51,7 +60,8 @@ public class IndexController {
 
     @GetMapping("/user")
     @ResponseBody
-    public String user() {
+    public String user(@AuthenticationPrincipal PrincipleDetails principleDetails) {
+        System.out.println("principleDetails = " + principleDetails);
         return "user";
     }
 

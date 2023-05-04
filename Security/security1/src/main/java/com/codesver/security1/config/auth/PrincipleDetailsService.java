@@ -1,4 +1,4 @@
-package com.codesver.security1.auth;
+package com.codesver.security1.config.auth;
 
 import com.codesver.security1.model.User;
 import com.codesver.security1.repository.UserRepository;

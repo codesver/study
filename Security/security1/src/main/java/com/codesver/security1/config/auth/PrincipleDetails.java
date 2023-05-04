@@ -1,4 +1,4 @@
-package com.codesver.security1.auth;
+package com.codesver.security1.config.auth;
 
 import com.codesver.security1.model.User;
 import lombok.Data;
@@ -14,14 +14,22 @@ import java.util.Map;
 public class PrincipleDetails implements UserDetails, OAuth2User {
 
     private final User user;
+    private Map<String, Object> attributes;
 
+    // Normal Login Constructor
     public PrincipleDetails(User user) {
         this.user = user;
     }
 
+    // OAuth Login Constructor
+    public PrincipleDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+    }
+
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return attributes;
     }
 
     @Override

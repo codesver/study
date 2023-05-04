@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // Secured annotation 활성화, pre(post)Authorize annotation 활성화
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+// Secured annotation 활성화, pre(post)Authorize annotation 활성화
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -38,11 +38,6 @@ public class SecurityConfig {
                 .userInfoEndpoint()
                 .userService(principleOauth2UserService); // Google login 이 되면 access token + user profile 을 바로 받는다.
         return http.build();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder encodePassword() {
-        return new BCryptPasswordEncoder();
     }
 }
 
