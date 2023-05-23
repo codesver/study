@@ -1,12 +1,14 @@
 package com.codesver.jwt.config.auth;
 
 import com.codesver.jwt.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Data
 public class PrincipleDetails implements UserDetails {
 
     private final User user;
@@ -18,7 +20,7 @@ public class PrincipleDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> authorities.add(() -> role));
+        user.getRoleList().forEach(role -> authorities.add(() -> role));
         return authorities;
     }
 

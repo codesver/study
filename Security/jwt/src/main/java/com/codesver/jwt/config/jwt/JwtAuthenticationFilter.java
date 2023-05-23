@@ -1,14 +1,21 @@
 package com.codesver.jwt.config.jwt;
 
+import com.codesver.jwt.config.auth.PrincipleDetails;
+import com.codesver.jwt.model.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 // Spring security UsernamePasswordAuthenticationFilter 가 있음
 // /login request 에서 username, password 를 전송(POST) 하면 동작
@@ -25,11 +32,36 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("JwtAuthenticationFilter : Trying to login");
 
-        // 1. username, password 수신
-        // 2. 정상적인 로그인 시도 - authenticationManager 로 로그인하면 PrincipleDetailsService 호출
-        // PrincipalDetailsService 의 loadUserByUsername() 함수 호출
-        // 3. PrincipleDetails 를 session 에 저장
-        // 4. JWT 를 만들어서 응답
-        return super.attemptAuthentication(request, response);
+        try {
+            // request 에 있는 username 과 password 를 파싱해서 자바 Object 로 받기
+            ObjectMapper mapper = new ObjectMapper();
+            User user = mapper.readValue(request.getInputStream(), User.class);
+            log.info("User = {}", user);
+
+            // Token 생성
+            UsernamePasswordAuthenticationToken authenticationToken
+                    = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+            log.info("Token 생성 완료 = {}", authenticationToken);
+
+            // 정상적인 로그인 시도 - authenticationManager 로 로그인하면 PrincipleDetailsService 호출
+            // PrincipalDetailsService 의 loadUserByUsername() 함수 호출
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            PrincipleDetails principleDetails = (PrincipleDetails) authentication.getPrincipal();
+            log.info("Authentication = {}", principleDetails.getUser().getUsername());
+
+            // Authentication 객체가 session 에 저장 => 권한 처리를 security 가 처리
+            return authentication;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // attemptAuthentication 으로 인증이 정상적으로 되었으면 실행
+    // JWT token 을 생성하여 client 에게 response
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        log.info("Authentication is completed");
+        super.successfulAuthentication(request, response, chain, authResult);
     }
 }

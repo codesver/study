@@ -18,7 +18,7 @@ public class User {
     private String password;
     private String roles;   // USER, ADMIN
 
-    public List<String> getRoles() {
+    public List<String> getRoleList() {
         return roles.isEmpty() ? new ArrayList<>() : Arrays.asList(roles.split(","));
     }
 }
