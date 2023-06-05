@@ -33,6 +33,4 @@ fun startsWithA(str: String?): Boolean {
 // Platform Type
 fun platformType() {
     val person = Person("codesver")
-    val name: String = person.name
-    startsWithA(name)
 }

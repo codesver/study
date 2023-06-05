@@ -1,3 +1,5 @@
+import data.Person
+
 fun main() {
     // var and val
     var mutableNumber: Long
@@ -9,5 +11,3 @@ fun main() {
     // Instance
     val person = Person("codesver")
 }
-
-class Person(name: String);
