@@ -40,7 +40,7 @@ class PersonCustomGetterSetter(
     val uppercaseName: String
         get() = name.uppercase()
 
-    fun isAdult(): Boolean = age >= 20
+//    fun isAdult(): Boolean = age >= 20
 }
 
 class Person(
