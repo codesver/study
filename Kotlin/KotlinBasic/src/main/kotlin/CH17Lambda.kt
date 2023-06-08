@@ -1,3 +1,5 @@
+import data.Fruit
+
 // Java to Kotlin Lambda
 // Kotlin 에서는 함수가 그 자체로 값이 될 수 있기 때문에 변수에 할당하거나 파라미터로 넘길 수 있다.
 // Lambda 는 함수명을 작성하지 않는다.
