@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/spring
+    username: codesver
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 415068039947-ki9esfc1iee2oft52iuhno9or5pp3hbr.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
