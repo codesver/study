@@ -1,6 +1,7 @@
 package com.codesver.springsecurity.mvc.controller;
 
 import com.codesver.springsecurity.mvc.entity.Member;
+import com.codesver.springsecurity.mvc.entity.Role;
 import com.codesver.springsecurity.mvc.repsoitory.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class PermitController {
     @PostMapping("/join")
     public String join(@ModelAttribute Member member, Model model) {
         member.setUserPw(passwordEncoder.encode(member.getUserPw()));
-        member.setRole("ROLE_MEMBER");
+        member.setRole(Role.ROLE_USER);
         repository.save(member);
         return "redirect:/login-form";
     }

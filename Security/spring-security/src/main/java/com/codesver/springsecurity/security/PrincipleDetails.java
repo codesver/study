@@ -33,7 +33,7 @@ public class PrincipleDetails implements UserDetails, OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add((GrantedAuthority) member::getRole);
+        collection.add((GrantedAuthority) () -> member.getRole().name());
         return collection;
     }
 
