@@ -1,4 +1,4 @@
-package com.codesver.springsecurity.security;
+package com.codesver.springsecurity.security.basic;
 
 import com.codesver.springsecurity.mvc.entity.Member;
 import com.codesver.springsecurity.mvc.repsoitory.MemberRepository;
