@@ -3,9 +3,9 @@ package com.codesver.springsecurity.mvc.controller;
 import com.codesver.springsecurity.mvc.entity.Member;
 import com.codesver.springsecurity.mvc.entity.Role;
 import com.codesver.springsecurity.mvc.repsoitory.MemberRepository;
+import com.codesver.springsecurity.security.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class PermitController {
 
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final MemberRepository repository;
 
     @GetMapping

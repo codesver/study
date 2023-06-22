@@ -2,7 +2,7 @@ package com.codesver.springsecurity.mvc.controller;
 
 import com.codesver.springsecurity.mvc.entity.Member;
 import com.codesver.springsecurity.mvc.repsoitory.MemberRepository;
-import com.codesver.springsecurity.security.PrincipleDetails;
+import com.codesver.springsecurity.security.basic.PrincipleDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
