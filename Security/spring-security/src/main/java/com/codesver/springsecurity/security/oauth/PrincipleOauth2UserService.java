@@ -6,6 +6,7 @@ import com.codesver.springsecurity.mvc.repsoitory.MemberRepository;
 import com.codesver.springsecurity.security.PasswordEncoder;
 import com.codesver.springsecurity.security.basic.PrincipleDetails;
 import com.codesver.springsecurity.security.oauth.provider.GoogleUserInfo;
+import com.codesver.springsecurity.security.oauth.provider.NaverUserInfo;
 import com.codesver.springsecurity.security.oauth.provider.OAuth2UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -42,6 +43,7 @@ public class PrincipleOauth2UserService extends DefaultOAuth2UserService {
 
     private OAuth2UserInfo distinguishProvider(String provider, OAuth2User oAuth2User) {
         if (provider.equals("google")) return new GoogleUserInfo(oAuth2User.getAttributes());
+        else if (provider.equals("naver")) return new NaverUserInfo(oAuth2User.getAttributes());
         return null;
     }
 }
