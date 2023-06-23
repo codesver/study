@@ -69,6 +69,6 @@ public class PrincipleDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
-        return null;
+        return member.getName();
     }
 }
