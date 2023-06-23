@@ -4,6 +4,7 @@ import com.codesver.springsecurity.mvc.entity.Member;
 import com.codesver.springsecurity.mvc.entity.Role;
 import com.codesver.springsecurity.mvc.repsoitory.MemberRepository;
 import com.codesver.springsecurity.security.PasswordEncoder;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -32,6 +34,15 @@ public class PermitController {
     public String getLoginForm() {
         return "/permit/login-form";
     }
+
+    @GetMapping("/login-form/failed")
+    public String loginFailed(HttpSession session, Model model) {
+        log.info("{}", (String) session.getAttribute("errorMessage"));
+        model.addAttribute("errorMessage", session.getAttribute("errorMessage"));
+        session.removeAttribute("errorMessage");
+        return "/permit/login-form";
+    }
+
 
     @GetMapping("/join-form")
     public String getJoinForm() {

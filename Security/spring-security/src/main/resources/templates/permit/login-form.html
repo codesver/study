@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login Form</title>
 </head>
 <body>
+<div th:if="${errorMessage != null}">
+    <p th:text="${errorMessage}"></p>
+</div>
 <form action="/login" method="POST">
     <label>
         <input type="text" name="username" placeholder="Username"> <br>

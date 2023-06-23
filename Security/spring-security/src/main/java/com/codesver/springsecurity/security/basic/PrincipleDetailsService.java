@@ -20,9 +20,7 @@ public class PrincipleDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("User Id={}", username);
         Optional<Member> optionalMember = repository.findMemberByUserId(username);
-        log.info("ID={}", optionalMember);
-        return optionalMember.map(PrincipleDetails::new).orElse(null);
+        return optionalMember.map(PrincipleDetails::new).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

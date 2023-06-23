@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSessionSecurityConfig {
 
     private final PrincipleOauth2UserService principleOauth2UserService;
+    private final AuthFailureHandler authFailureHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,10 +33,12 @@ public class SpringSessionSecurityConfig {
                         .userInfoEndpoint(userInfoEndpointConfig ->
                                 userInfoEndpointConfig
                                         .userService(principleOauth2UserService))
+                        .failureHandler(authFailureHandler)
                 ).formLogin(login -> login
                         .loginPage("/login-form")       // Request URL for login form
                         .loginProcessingUrl("/login")   // Request URL for login
                         .defaultSuccessUrl("/")         // Redirection after login
+                        .failureHandler(authFailureHandler)
                 ).build();
     }
 }
