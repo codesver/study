@@ -6,10 +6,11 @@ let numD = -0.123;
 let numE = Infinity;
 let numF = -Infinity;
 let numG = NaN;
-let numH = null;
 // string
 let stringA = 'typescript';
-export {};
 // boolean
 // null
 // undefined
+// Literal
+let numH = 10;
+export {};
