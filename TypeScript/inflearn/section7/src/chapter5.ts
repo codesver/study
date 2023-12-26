@@ -10,9 +10,7 @@ const promise = new Promise<number>((resolve, reject) => {
 
 // response를 자동으로 추론하지 않는다. Generic 사용 new Promise<number>
 promise
-  .then((response) => {
-    console.log(response * 10);
-  })
+  .then((response) => console.log(response * 10))
   .catch((err) => {
     if (typeof err === "string") {
       console.log(err);
