@@ -24,3 +24,8 @@ const post: PostList[number] = {
 };
 
 printAuthorInfo(post.author);
+
+type Tuple = [number, string, boolean];
+type TupleNumber = Tuple[0];
+type TupleString = Tuple[1];
+type TupleBoolean = Tuple[2];
