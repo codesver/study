@@ -1,8 +1,8 @@
 interface User {
   id: number;
   name: string;
-  age: number;
-  readonly gender: "XX" | "XY";
+  age?: number;
+  readonly gender?: "XX" | "XY";
 }
 
 // PickT, K extends T> → 객체 타입으로부터 특정 프로퍼티만 골라내는 타입
